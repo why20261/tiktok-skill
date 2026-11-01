@@ -1,6 +1,6 @@
 {
   "name": "tiktok-skill",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "TikTok 达人/博主公开作品、关键词搜索、视频评论数据获取，输出结构化 JSON，供 AI 直接做选题、竞品监控与舆情分析。",
   "keywords": [
     "tiktok",
