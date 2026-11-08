@@ -1,4 +1,4 @@
-# 🚀 TikTok 数据技能 · 关键词搜索 / 达人作品 / 视频评论
+# TikTok数据技能 · TikTok搜索 · KOL作品 · 作品评论
 
 > ### 一句话价值
 >
@@ -50,7 +50,7 @@
 
 ## 4. ⚡ 30 秒上手
 
-> **前置（只需做一次）**：通过微信 `13395823479`（备注"TikTok 技能"）申请 Token，或到 [TikTok数据技能 · TikTok搜索 · KOL作品 · 作品评论](https://www.guaikei.com) 自助开通，然后配置环境变量：
+> **前置（只需做一次）**：到 [TikTok数据技能 · TikTok搜索 · KOL作品 · 作品评论官网](https://www.guaikei.com) 自助开通 Token，然后配置环境变量：
 >
 > ```bash
 > # Windows
@@ -74,8 +74,8 @@ node scripts/tiktok/post-cli.js --url "https://www.tiktok.com/@username" --limit
 # 🦸 抓取某博主最热的 30 条作品
 node scripts/tiktok/post-cli.js --url "https://www.tiktok.com/@username" --sort 1 --limit 30
 
-# 💬 拉取某条视频的 100 条评论
-node scripts/tiktok/comment-cli.js --url "https://www.tiktok.com/@username/video/1234567890123456789" --limit 100
+# 💬 拉取某条视频的评论（包月最多 40；按量可更大）
+node scripts/tiktok/comment-cli.js --url "https://www.tiktok.com/@username/video/1234567890123456789" --limit 40
 ```
 
 **也可以直接对 AI 说人话**（安装技能后）：
@@ -117,13 +117,13 @@ node scripts/tiktok/comment-cli.js --url "https://www.tiktok.com/@username/video
 
 > 完整说明见 [references/options.md](references/options.md)
 
-**搜索**：`--keyword/-k`（必填，1–100 字符）｜`--sort/-s` 0 相关度 / 1 最多点赞｜`--time/-t` 0/1/7/30/90/180｜`--limit/-l` 1–10000，默认 10。包月 TOKEN 最多 30 条
+**搜索**：`--keyword/-k`（必填，1–100 字符）｜`--sort/-s` 0 相关度 / 1 最多点赞｜`--time/-t` 0/1/7/30/90/180｜`--limit/-l` 1–10000（**包月最多 30**），默认 10
 
-**博主作品**：`--url/-u`（主页、`@用户名` 或 `MS4w` 开头的 sec_uid）｜`--sort/-s` 0 最新 / 1 最热，默认最新｜`--limit/-l`。包月 TOKEN 最多 30 条
+**博主作品**：`--url/-u`（主页、`@用户名` 或 `MS4w` 开头的 sec_uid）｜`--sort/-s` 0 最新 / 1 最热，默认最新｜`--limit/-l` 1–10000（**包月最多 30**）
 
-**视频评论**：`--url/-u`（`/video/数字id` 或纯数字作品 ID）｜`--limit/-l`。包月 TOKEN 最多 40 条
+**视频评论**：`--url/-u`（`/video/数字id` 或纯数字作品 ID）｜`--limit/-l` 1–10000（**包月最多 40**）
 
-> 搜索的 `--sort 1` 是最多点赞，作品的 `--sort 1` 是最热。短链 `vm` / `vt` / `/t/` 不支持。
+> 套餐双上限：技能硬上限 10000（按量）；包月超限返回 `PLAN_LIMIT`，不要当网络错误重试。搜索的 `--sort 1` 是最多点赞，作品的 `--sort 1` 是最热。短链 `vm` / `vt` / `/t/` 不支持。
 
 ---
 
@@ -167,6 +167,13 @@ A：非法的排序、时间或数量会直接失败，退出码 2，`error_code
 </details>
 
 <details>
+<summary><b>Q：报错 `PLAN_LIMIT` / 提示包月受限？</b></summary>
+
+A：技能侧硬上限仍是 10000 条/次（按量 Token）。**包月 Token** 搜索/作品最多 30、评论最多 40，超限返回 `PLAN_LIMIT`（退出码 1），不要当网络错误同参重试。可降 `--limit` 或到官网升级按量套餐。
+
+</details>
+
+<details>
 <summary><b>Q：日志文件在哪？</b></summary>
 
 A：默认不写文件。需要留底时先设置 `TT_GUAIKEI_ENABLE_LOG=1`，成功后 stderr 会打印"已保存到 …"，路径为系统临时目录下的 `tiktok-guaikei/logs/<日期>/`。
@@ -191,9 +198,8 @@ A：支持。stdout 是纯 JSON、退出码语义明确，可直接被脚本或 
 
 ## 9. 💳 计费与支持
 
-- **计费**：按 API 调用量计费，官方渠道开通，用量透明可查；**失败调用不计费**。
-- **开通**：微信 `13395823479`（备注"TikTok 技能"），或 [TikTok数据技能 · TikTok搜索 · KOL作品 · 作品评论官网](https://www.guaikei.com) 自助开通。
-- **技术支持**：微信同上，支持参数调试、场景方案咨询与定制需求。
+- **计费**：按 API 调用量计费，官方渠道开通，用量透明可查；**失败调用不计费**。按量单次最多 10000；包月搜索/作品最多 30、评论最多 40，超限为 `PLAN_LIMIT`。
+- **开通 / 支持**：[TikTok数据技能 · TikTok搜索 · KOL作品 · 作品评论官网](https://www.guaikei.com) 自助开通 Token，并查阅使用帮助。
 - **更新日志**：[references/changelog.md](references/changelog.md)
 
 ---
